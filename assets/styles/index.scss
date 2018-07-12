@@ -3,11 +3,19 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import './c3';
 
 h2 {
-  color: #0F4575;
+  color: #EC2C36;
   margin-top: 2px;
   }
 
 .container {
   margin-top: 20px;
   width: 90%;
+}
+
+label {
+  margin-left: 25px;
+}
+
+.btn {
+  margin-left: 25px;
 }
