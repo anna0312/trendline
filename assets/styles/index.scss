@@ -1,2 +1,13 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+@import './c3';
+
+h2 {
+  color: #0F4575;
+  margin-top: 2px;
+  }
+
+.container {
+  margin-top: 20px;
+  width: 90%;
+}
