@@ -2,9 +2,13 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 @import './c3';
 
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script%7COpen+Sans:400,600,700%7COswald:300,400,500,700);
+
 h2 {
   color: #EC2C36;
   margin-top: 2px;
+  font-family: 'Oswald', sans-serif;
+
   }
 
 .container {
@@ -16,6 +20,53 @@ label {
   margin-left: 25px;
 }
 
-.btn {
-  margin-left: 25px;
+.btnSubmit {
+    background-color: #EC2C36;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    margin: 5px auto 25px;
+    border-radius: 2px;
+    // width: 40%;
+    margin-bottom: 10px;
+    margin: 0px 15px;
 }
+
+.btnGraphType.active {
+       background-color: #EC4954;
+       color: #fff;
+
+   }
+
+   .btnGraphType:hover {
+       background-color: #EC4954;
+       color: #fff;
+   }
+
+
+.btnGraphType {
+    background-color: transparent;
+    color: #005587;
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    margin: 5px auto 25px;
+    border: 2px solid #005587;
+    border-radius: 2px;
+    // width: 40%;
+    margin-bottom: 10px;
+    margin: 0px 15px;
+}
+
+.btnGraphType.active {
+       background-color: #005587;
+       color: #fff;
+   }
+
+   .btnGraphType:hover {
+       background-color: #005587;
+       color: #fff;
+   }

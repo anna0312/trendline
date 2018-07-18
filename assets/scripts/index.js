@@ -1,8 +1,11 @@
 'use strict'
-const graphs = require('./graphs/participants')
+const participants = require('./graphs/participants')
+// const donations = require('./graphs/donations')
 
 $(() => {
   // your JS code goes here
-  graphs.addHandlers(),
-  graphs.loadParticipantsGraph()
+  participants.addHandlers()
+  participants.loadParticipantsGraph()
+//  donations.addHandlers()
+//  donations.loadDonationsGraph()
 })

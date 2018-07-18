@@ -11,17 +11,33 @@ const updateParticipantGraph = function (event) {
 }
 
 const loadParticipantsGraph = function () {
+  const graphSubject = $("input[name='graphSubject']:checked").val()
+  $('#graphTitle').text(graphSubject)
+  let filename = ''
+  if (graphSubject === 'Donations') {
+    $('#lblProjected').text('Projected total $')
+    $('#lblActual').text('Current total $')
+
+    $('#projectedTotal').val(2207000)
+
+    filename = 'raised' + $('#locationName').val() + '.json'
+  } else {
+    $('#lblProjected').text('Projected total participants')
+    $('#lblActual').text('Current total')
+
+    $('#projectedTotal').val(14026)
+
+    filename = $('#locationName').val() + '.json'
+  }
   const eventDate = moment($('#eventDate').val())
-  const participantTotal = $('#participantTotal').val()
-  const actualParticipants = $('#actualParticipants').val()
-  // const actualRaised = $('#actualRaised').val()
-  // const showDays = $('#showDays').val()
+  const projectedTotal = $('#projectedTotal').val()
+  const actualTotal = $('#actualTotal').val()
   const dateStart = moment($('#dateStart').val())
   const dateEnd = moment($('#dateEnd').val())
 
   const interval = $('#interval').val()
-  const filename = $('#locationName').val()
   const data = require('../../json/' + filename)
+  // const data = require('../../json/Atlanta.json')
 
   // Set up arrays for chart
   const proj = ['Projected']
@@ -30,9 +46,11 @@ const loadParticipantsGraph = function () {
   const y2016 = ['2016']
   const y2015 = ['2015']
   const dates = ['x1']
-  const actual = ['Actual', actualParticipants]
+  const actual = ['Actual', actualTotal]
 
-  const today = moment(new Date())
+  let today = moment().format('M/D/YYYY')
+  console.log('today', today)
+  // today = moment(today, 'MM-DD-YYYY')
   let daysAway = eventDate.diff(dateStart, 'days')
 
   if (interval === 'day') {
@@ -40,40 +58,40 @@ const loadParticipantsGraph = function () {
       daysAway = eventDate.diff(dateStart, 'days')
       dates.push(moment(dateStart))
       dateStart.add(1, 'day')
-      proj.push(((data[daysAway].avg.perc / 100) * participantTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * participantTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * participantTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * participantTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * participantTotal).toFixed(0))
+      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
+      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
+      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
+      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
+      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
     }
   } else if (interval === 'week') {
     while (dateEnd > dateStart || dateStart.format('W') === dateEnd.format('W')) {
       daysAway = eventDate.diff(dateStart, 'days')
       dates.push(moment(dateStart))
       dateStart.add(1, 'week')
-      proj.push(((data[daysAway].avg.perc / 100) * participantTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * participantTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * participantTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * participantTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * participantTotal).toFixed(0))
+      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
+      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
+      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
+      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
+      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
     }
   } else {
     while (dateEnd > dateStart || dateStart.format('M') === dateEnd.format('M')) {
       daysAway = eventDate.diff(dateStart, 'days')
-      console.log('perc', data[daysAway].avg.perc)
+      // console.log('perc', data[daysAway].avg.perc)
       dates.push(moment(dateStart))
       dateStart.add(1, 'month')
-      proj.push(((data[daysAway].avg.perc / 100) * participantTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * participantTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * participantTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * participantTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * participantTotal).toFixed(0))
+      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
+      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
+      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
+      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
+      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
     }
   }
   // console.log('proj', proj)
   // console.log('days away', daysAway)
   // for (let i = showDays; i > -1; i - interval) {
-  //   proj.push(((data[i].avg.perc / 100) * participantTotal).toFixed(0))
+  //   proj.push(((data[i].avg.perc / 100) * projectedTotal).toFixed(0))
   //   // console.log(i, data[i])
   //   dates.push(moment(eventDate).subtract(i, 'days'))
   // }
@@ -123,7 +141,7 @@ const loadParticipantsGraph = function () {
     },
     grid: {
       y: {
-        lines: [{front: false, value: actualParticipants, class: 'gridtoday', text: actualParticipants + ' registered so far'}]
+        lines: [{front: false, value: actualTotal, class: 'gridtoday', text: actualTotal + ' registered so far'}]
       }
     }
 
@@ -136,6 +154,7 @@ const addHandlers = () => {
   $('#data-input').on('submit', updateParticipantGraph)
   $('#locationName').on('change', loadParticipantsGraph)
   $('#interval').on('change', loadParticipantsGraph)
+  $('#graphSubjectToggle').on('change', loadParticipantsGraph)
 }
 
 module.exports = {
