@@ -10,6 +10,8 @@ const updateParticipantGraph = function (event) {
   loadParticipantsGraph()
 }
 
+let projectedTotal
+
 const loadParticipantsGraph = function () {
   const graphSubject = $("input[name='graphSubject']:checked").val()
   $('#graphTitle').text(graphSubject)
@@ -17,20 +19,25 @@ const loadParticipantsGraph = function () {
   if (graphSubject === 'Donations') {
     $('#lblProjected').text('Projected total $')
     $('#lblActual').text('Current total $')
-
-    $('#projectedTotal').val(2207000)
-
     filename = 'raised' + $('#locationName').val() + '.json'
+    projectedTotal = $('#projectedDonTotal').val()
+    $('#projectedDonTotal').show()
+    $('#projectedRegTotal').hide()
   } else {
     $('#lblProjected').text('Projected total participants')
     $('#lblActual').text('Current total')
-
-    $('#projectedTotal').val(14026)
-
     filename = $('#locationName').val() + '.json'
+    projectedTotal = $('#projectedRegTotal').val()
+    $('#projectedRegTotal').show()
+    $('#projectedDonTotal').hide()
   }
+
+  // set today as the default starting day if none is specified
+  if ($('#dateStart').val() === '') {
+    $('#dateStart').val(moment().format('M/D/YYYY'))
+  }
+
   const eventDate = moment($('#eventDate').val())
-  const projectedTotal = $('#projectedTotal').val()
   const actualTotal = $('#actualTotal').val()
   const dateStart = moment($('#dateStart').val())
   const dateEnd = moment($('#dateEnd').val())
@@ -97,6 +104,7 @@ const loadParticipantsGraph = function () {
   // }
 
   // $('#showstuff').text(daysToShow)
+
 
   const chart = c3.generate({
     bindto: '#chart',
