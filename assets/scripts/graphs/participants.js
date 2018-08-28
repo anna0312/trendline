@@ -16,11 +16,13 @@ const loadParticipantsGraph = function () {
   const graphSubject = $("input[name='graphSubject']:checked").val()
   $('#graphTitle').text(graphSubject)
   let filename = ''
+  let todayText = ''
   if (graphSubject === 'Donations') {
     $('#lblProjected').text('Projected total $')
     $('#lblActual').text('Current total $')
     filename = 'raised' + $('#locationName').val() + '.json'
     projectedTotal = $('#projectedDonTotal').val()
+    todayText = ' raised so far'
     $('#projectedDonTotal').show()
     $('#projectedRegTotal').hide()
   } else {
@@ -28,6 +30,7 @@ const loadParticipantsGraph = function () {
     $('#lblActual').text('Current total')
     filename = $('#locationName').val() + '.json'
     projectedTotal = $('#projectedRegTotal').val()
+    todayText = ' registered so far'
     $('#projectedRegTotal').show()
     $('#projectedDonTotal').hide()
   }
@@ -85,6 +88,9 @@ const loadParticipantsGraph = function () {
   } else {
     while (dateEnd > dateStart || dateStart.format('M') === dateEnd.format('M')) {
       daysAway = eventDate.diff(dateStart, 'days')
+      if (daysAway < -1) {
+        daysAway = -1
+      }
       // console.log('perc', data[daysAway].avg.perc)
       dates.push(moment(dateStart))
       dateStart.add(1, 'month')
@@ -95,6 +101,17 @@ const loadParticipantsGraph = function () {
       y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
     }
   }
+
+  let endDay = eventDate.diff(dateEnd, 'days')
+  console.log('endday', endDay)
+  dates.push(moment(dateEnd))
+  proj.push(((data[endDay].avg.perc / 100) * projectedTotal).toFixed(0))
+  y2018.push(((data[endDay][2018].perc / 100) * projectedTotal).toFixed(0))
+  y2017.push(((data[endDay][2017].perc / 100) * projectedTotal).toFixed(0))
+  y2016.push(((data[endDay][2016].perc / 100) * projectedTotal).toFixed(0))
+  y2015.push(((data[endDay][2015].perc / 100) * projectedTotal).toFixed(0))
+
+console.log(proj)
   // console.log('proj', proj)
   // console.log('days away', daysAway)
   // for (let i = showDays; i > -1; i - interval) {
@@ -149,7 +166,7 @@ const loadParticipantsGraph = function () {
     },
     grid: {
       y: {
-        lines: [{front: false, value: actualTotal, class: 'gridtoday', text: actualTotal + ' registered so far'}]
+        lines: [{front: false, value: actualTotal, class: 'gridtoday', text: actualTotal + todayText}]
       }
     }
 
