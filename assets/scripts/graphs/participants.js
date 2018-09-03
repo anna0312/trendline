@@ -40,6 +40,7 @@ const loadParticipantsGraph = function () {
     $('#dateStart').val(moment().format('M/D/YYYY'))
   }
 
+  const location = $('#locationName').val()
   const eventDate = moment($('#eventDate').val())
   const actualTotal = $('#actualTotal').val()
   const dateStart = moment($('#dateStart').val())
@@ -61,57 +62,73 @@ const loadParticipantsGraph = function () {
   let today = moment().format('M/D/YYYY')
   console.log('today', today)
   // today = moment(today, 'MM-DD-YYYY')
-  let daysAway = eventDate.diff(dateStart, 'days')
-
+  let mDateFormat = ''
   if (interval === 'day') {
-    while (dateEnd > dateStart || dateStart.format('D') === dateEnd.format('D')) {
-      daysAway = eventDate.diff(dateStart, 'days')
-      dates.push(moment(dateStart))
-      dateStart.add(1, 'day')
-      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
-    }
+    mDateFormat = 'D'
   } else if (interval === 'week') {
-    while (dateEnd > dateStart || dateStart.format('W') === dateEnd.format('W')) {
-      daysAway = eventDate.diff(dateStart, 'days')
-      dates.push(moment(dateStart))
-      dateStart.add(1, 'week')
-      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
-    }
+    mDateFormat = 'W'
   } else {
-    while (dateEnd > dateStart || dateStart.format('M') === dateEnd.format('M')) {
-      daysAway = eventDate.diff(dateStart, 'days')
-      if (daysAway < -1) {
-        daysAway = -1
-      }
-      // console.log('perc', data[daysAway].avg.perc)
-      dates.push(moment(dateStart))
-      dateStart.add(1, 'month')
-      proj.push(((data[daysAway].avg.perc / 100) * projectedTotal).toFixed(0))
-      y2018.push(((data[daysAway][2018].perc / 100) * projectedTotal).toFixed(0))
-      y2017.push(((data[daysAway][2017].perc / 100) * projectedTotal).toFixed(0))
-      y2016.push(((data[daysAway][2016].perc / 100) * projectedTotal).toFixed(0))
-      y2015.push(((data[daysAway][2015].perc / 100) * projectedTotal).toFixed(0))
+    mDateFormat = 'M'
+  }
+
+  let objRef = ''
+  let objRefEnd = ''
+  let daysAway = eventDate.diff(dateStart, 'days')
+  let oldValue = ''
+
+  while (dateEnd > dateStart || dateStart.format(mDateFormat) === dateEnd.format(mDateFormat)) {
+
+    dates.push(moment(dateStart))
+    dateStart.add(1, interval)
+
+    daysAway = eventDate.diff(dateStart, 'days')
+    if (daysAway < -1) {
+      daysAway = -1
+    }
+    if (location === 'National') {
+      objRef = moment(dateStart).format('M/D/YYYY')
+    } else {
+      objRef = daysAway
+    }
+    console.log('objRef', objRef)
+
+
+    if (data[objRef]) {
+      oldValue = objRef
+      proj.push(((data[objRef].avg.perc / 100) * projectedTotal).toFixed(0))
+      y2018.push((data[objRef][2018].cumu).toFixed(0))
+      y2017.push((data[objRef][2017].cumu).toFixed(0))
+      y2016.push((data[objRef][2016].cumu).toFixed(0))
+      y2015.push((data[objRef][2015].cumu).toFixed(0))
+    } else {
+    //  console.log('oldValue should be', oldValue)
+      proj.push(((data[oldValue].avg.perc / 100) * projectedTotal).toFixed(0))
+      y2018.push((data[oldValue][2018].cumu).toFixed(0))
+      y2017.push((data[oldValue][2017].cumu).toFixed(0))
+      y2016.push((data[oldValue][2016].cumu).toFixed(0))
+      y2015.push((data[oldValue][2015].cumu).toFixed(0))
     }
   }
 
-  let endDay = eventDate.diff(dateEnd, 'days')
-  console.log('endday', endDay)
-  dates.push(moment(dateEnd))
-  proj.push(((data[endDay].avg.perc / 100) * projectedTotal).toFixed(0))
-  y2018.push(((data[endDay][2018].perc / 100) * projectedTotal).toFixed(0))
-  y2017.push(((data[endDay][2017].perc / 100) * projectedTotal).toFixed(0))
-  y2016.push(((data[endDay][2016].perc / 100) * projectedTotal).toFixed(0))
-  y2015.push(((data[endDay][2015].perc / 100) * projectedTotal).toFixed(0))
+if (moment(oldValue) < moment(dateEnd)) {
 
-console.log(proj)
+    let endDay = eventDate.diff(dateEnd, 'days')
+    if (location === 'National') {
+      objRefEnd = moment(dateEnd).format('M/D/YYYY')
+    } else {
+      objRefEnd = endDay
+    }
+    dates.push(moment(dateEnd))
+    proj.push(((data[objRefEnd].avg.perc / 100) * projectedTotal).toFixed(0))
+    y2018.push((data[objRefEnd][2018].cumu).toFixed(0))
+    y2017.push((data[objRefEnd][2017].cumu).toFixed(0))
+    y2016.push((data[objRefEnd][2016].cumu).toFixed(0))
+    y2015.push((data[objRefEnd][2015].cumu).toFixed(0))
+} else {
+  console.log('not ', dateStart)
+}
+
+// *************
   // console.log('proj', proj)
   // console.log('days away', daysAway)
   // for (let i = showDays; i > -1; i - interval) {
