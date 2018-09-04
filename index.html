@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Trendline</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Do not add `link` tags-->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Do not add `script` tags-->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+<body>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">  <h2>Cupid's 2019 <span id="graphTitle"></span> Trendline </h2></div>
+        <div class="col-sm-6" style="text-align: right;">
+          <div class="btn-group" data-toggle="buttons" id="graphSubjectToggle">
+            <label class="btn btn-primary active btnGraphType">
+              <input type="radio" name="graphSubject" id="graphSubjectRegistrations" value="Registrations" autocomplete="off" checked> Registrations
+            </label>
+            <label class="btn btn-primary btnGraphType">
+              <input type="radio" name="graphSubject" id="graphSubjectDonations"  value="Donations" autocomplete="off"> Donations
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+    <form id="data-input" class="form-inline">
+
+          <div class="well">
+
+      <div class="form-group">
+        <label>  Showing data for: </label>
+
+        <select id="locationName" class="form-control">
+        <option value="National">National</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="Austin">Austin</option>
+        <option value="Baltimore">Baltimore</option>
+        <option value="Boise">Boise</option>
+        <option value="Boston">Boston</option>
+        <option value="Buffalo">Buffalo</option>
+        <option value="Charlotte">Charlotte</option>
+        <option value="Chicago">Chicago</option>
+        <option value="Cincinnati">Cincinnati</option>
+        <option value="Cleveland">Cleveland</option>
+        <option value="Dallas">Dallas</option>
+        <option value="Denver">Denver</option>
+        <option value="Detroit">Detroit</option>
+        <option value="Indianapolis">Indianapolis</option>
+        <option value="Jacksonville">Jacksonville</option>
+        <option value="LosAngeles">LosAngeles</option>
+        <option value="Miami">Miami</option>
+        <option value="Minneapolis">Minneapolis</option>
+        <option value="Nashville">Nashville</option>
+        <option value="NewYorkCity">NewYorkCity</option>
+        <option value="Orlando">Orlando</option>
+        <option value="Philadelphia">Philadelphia</option>
+        <option value="Pittsburgh">Pittsburgh</option>
+        <option value="Raleigh">Raleigh</option>
+        <option value="SFBayArea">SFBayArea</option>
+        <option value="St.Louis">St.Louis</option>
+        <option value="St.Petersburg">St.Petersburg</option>
+        <option value="VirginiaBeach">VirginiaBeach</option>
+        <option value="WashingtonD.C.">WashingtonD.C.</option>
+    </select>
+      </div>
+      <div class="form-group">
+        <label>by: </label>
+        <select id="interval" name="figures[interval]" class="form-control">
+      <option value="day">Days</option>
+      <option value="week">Weeks</option>
+      <option value="month" selected>Months</option>
+  </select>
+      </div>
+
+
+      <label>From: </label> <input type="text" class="form-control" id="dateStart" name="figures[dateStart]" >
+      <label>To: </label> <input type="text" class="form-control" id="dateEnd" name="figures[dateEnd]" value="2/23/2019">
+<br />
+<br />
+<div class="form-group">
+<label>Event date </label> <input type="text" class="form-control" id="eventDate" name="figures[eventDate]" value="2/23/2019">
+</div>
+<div class="form-group">
+<label id="lblProjected">Projected total participants</label>
+  <input type="number" class="form-control" id="projectedRegTotal" name="figures[projectedRegTotal]" value="14026">
+  <input type="number" class="form-control" id="projectedDonTotal" name="figures[projectedDonTotal]" value="2207000">
+</div>
+<div class="form-group">
+<label id="lblActual">Currently registered </label> <input type="number" class="form-control" id="actualTotal" name="figures[actualTotal]" value="0">
+</div>
+          <input type="submit" value="Update" class="btn btnSubmit">
+
+  </div>
+
+  </form>
+  <div id="showstuff"></div>
+  <div id='chart'></div>
+  </div>
+</body>
+
+</html>
