@@ -89,8 +89,7 @@ const loadParticipantsGraph = function () {
     } else {
       objRef = daysAway
     }
-    console.log('objRef', objRef)
-
+    //  console.log('objRef', objRef)
 
     if (data[objRef]) {
       oldValue = objRef
