@@ -79,7 +79,6 @@ const loadParticipantsGraph = function () {
   while (dateEnd > dateStart || dateStart.format(mDateFormat) === dateEnd.format(mDateFormat)) {
 
     dates.push(moment(dateStart))
-    dateStart.add(1, interval)
 
     daysAway = eventDate.diff(dateStart, 'days')
     if (daysAway < -1) {
@@ -108,6 +107,9 @@ const loadParticipantsGraph = function () {
       y2016.push((data[oldValue][2016].cumu).toFixed(0))
       y2015.push((data[oldValue][2015].cumu).toFixed(0))
     }
+
+    dateStart.add(1, interval)
+
   }
 
 if (moment(oldValue) < moment(dateEnd)) {
@@ -119,13 +121,13 @@ if (moment(oldValue) < moment(dateEnd)) {
       objRefEnd = endDay
     }
     dates.push(moment(dateEnd))
+    if (data[objRefEnd]) {
     proj.push(((data[objRefEnd].avg.perc / 100) * projectedTotal).toFixed(0))
     y2018.push((data[objRefEnd][2018].cumu).toFixed(0))
     y2017.push((data[objRefEnd][2017].cumu).toFixed(0))
     y2016.push((data[objRefEnd][2016].cumu).toFixed(0))
     y2015.push((data[objRefEnd][2015].cumu).toFixed(0))
-} else {
-  console.log('not ', dateStart)
+    }
 }
 
 // *************
